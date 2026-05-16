@@ -9,6 +9,7 @@ import com.stripe.net.RequestOptions;
 import com.stripe.net.Webhook;
 import com.stripe.param.ChargeRetrieveParams;
 import pl.commercelink.payments.api.PaymentLineItem;
+import pl.commercelink.payments.api.PaymentLink;
 import pl.commercelink.payments.api.PaymentProvider;
 import pl.commercelink.payments.api.PaymentRequest;
 import pl.commercelink.payments.api.PaymentWebhookRequest;
@@ -34,7 +35,7 @@ class StripePaymentProvider implements PaymentProvider {
     }
 
     @Override
-    public String createPaymentLink(PaymentRequest request) {
+    public PaymentLink createPaymentLink(PaymentRequest request) {
         StripeCheckoutParamsBuilder builder = StripeCheckoutParamsBuilder.builder(
                         request.currency(), request.successUrl(), request.cancelUrl())
                 .withLineItems(toStripeLineItems(request.lineItems(), request.currency()))
@@ -46,7 +47,8 @@ class StripePaymentProvider implements PaymentProvider {
         }
 
         try {
-            return Session.create(builder.build(), requestOptions).getUrl();
+            String url = Session.create(builder.build(), requestOptions).getUrl();
+            return new PaymentLink(url, "GET", null);
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
