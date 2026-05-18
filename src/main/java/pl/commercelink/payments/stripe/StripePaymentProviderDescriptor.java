@@ -2,6 +2,8 @@ package pl.commercelink.payments.stripe;
 
 import pl.commercelink.payments.api.PaymentProvider;
 import pl.commercelink.payments.api.PaymentProviderDescriptor;
+import pl.commercelink.provider.api.EventBinding;
+import pl.commercelink.provider.api.EventBinding.WebhookBinding;
 import pl.commercelink.provider.api.ProviderField;
 
 import java.util.List;
@@ -32,5 +34,10 @@ public class StripePaymentProviderDescriptor implements PaymentProviderDescripto
     @Override
     public PaymentProvider create(Map<String, String> configuration) {
         return new StripePaymentProvider(configuration.get("apiKey"), configuration.get("signingSecret"));
+    }
+
+    @Override
+    public List<EventBinding<?>> bindings() {
+        return List.of(new WebhookBinding<>("stripe", String.class));
     }
 }
