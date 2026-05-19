@@ -36,7 +36,8 @@ class StripePaymentProvider implements PaymentProvider {
         }
 
         try {
-            return new PaymentLink(Session.create(builder.build(), requestOptions).getUrl(), "GET", null);
+            String url = Session.create(builder.build(), requestOptions).getUrl();
+            return new PaymentLink(url, "GET", null);
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
