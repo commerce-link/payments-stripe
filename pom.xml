@@ -43,7 +43,12 @@
         <dependency>
             <groupId>pl.commercelink</groupId>
             <artifactId>payments-api</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.commercelink</groupId>
+            <artifactId>provider-api</artifactId>
+            <version>0.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.stripe</groupId>
